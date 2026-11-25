@@ -15,6 +15,10 @@ All notable changes to this project are documented here. The format follows [Kee
 - The repository now has two long-lived branches, `main` and `release`, instead of cutting a `release/<minor>` branch per version. A release is prepared on `release` by a pull request, tagged there, and merged back into `main`; both branches require a pull request, the two status contexts, and refuse force pushes and deletions.
 - The branch-source check follows the same model: `main` takes the contribution branches and the `release` line, and `release` takes fixes, chores and a back-merge from `main`.
 
+### Fixed
+
+- A release the workflow writes is published even when `gh` leaves it as a draft, and the release it tops up is refreshed deliberately: the publishing step now ends with `gh release edit … --draft=false`, so neither a draft `gh` created nor one a person drafted by hand stays hidden. That last step marks the release latest unless it is a pre-release — a tag such as `v0.2.0-rc.1` keeps the label it was given and is not forced into `latest`.
+
 ## [0.1.0] - 2026-11-25
 
 ### Added

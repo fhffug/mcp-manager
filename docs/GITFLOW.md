@@ -80,7 +80,9 @@ Then:
 3. Pushing the tag runs the **Release** workflow: it builds the bundle, packs
    `dist/dsh-mcp-workbench-<version>.zip`, writes the notes from the matching `CHANGELOG` section, and
    publishes the GitHub release with that zip attached. Re-running the workflow by hand
-   (`workflow_dispatch`, with the tag as its input) republishes or tops the release up.
+   (`workflow_dispatch`, with the tag as its input) republishes or tops the release up. A tag with a
+   suffix, such as `v0.2.0-rc.1`, is published as a pre-release: the workflow publishes it but leaves
+   its label alone and does not mark it latest.
 4. Open `release` against `main` and merge it with **Create a merge commit**. The tag is already an
    ancestor of `main` at that point.
 5. Fixes found during a freeze land on `fix/*` branches and reach `release` by pull request. A patch

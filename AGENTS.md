@@ -125,7 +125,9 @@ characters, one thing per commit. Details: [docs/GITFLOW.md](docs/GITFLOW.md).
 5. Collect freeze fixes on `fix/*` branches, each with a pull request into `release`.
 6. `git tag -a v<version> -m "v<version>"` on `release`, then `git push origin v<version>`. The **Release**
    workflow builds the zip, writes the notes from the changelog and publishes the GitHub release; rerun
-   it by hand (`workflow_dispatch`, the tag as input) to top a release up.
+   it by hand (`workflow_dispatch`, the tag as input) to top a release up. A tag with a suffix, such as
+   `v<version>-rc.1`, is published as a pre-release: the workflow publishes it but keeps its label and
+   never marks it latest.
 7. Open `release` against `main`, merge with **Create a merge commit**, so the two lines stay level.
 8. Keep `release`: a later patch release repeats steps 2–7.
 
@@ -138,7 +140,8 @@ characters, one thing per commit. Details: [docs/GITFLOW.md](docs/GITFLOW.md).
 5. 冻结期的修复走 `fix/*` 分支，各自向 `release` 开 PR。
 6. 在 `release` 上 `git tag -a v<版本> -m "v<版本>"`，再 `git push origin v<版本>`。**Release** workflow
    会自动 build、打包、按 changelog 生成说明并发布 GitHub release；要补发就手动跑一次
-   （`workflow_dispatch`，输入标签）。
+   （`workflow_dispatch`，输入标签）。带后缀的标签（例如 `v<版本>-rc.1`）会作为预发布版发布：workflow
+   只发布它，保留它原有的标签，绝不把它标成 latest。
 7. `release` 对 `main` 开 PR，用 **Create a merge commit** 合并，让两条线保持一致。
 8. `release` 保留；之后的补丁版重复第 2–7 步。
 

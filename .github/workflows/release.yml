@@ -69,10 +69,7 @@ jobs:
         run: |
           set -euo pipefail
           if gh release view "$TAG" > /dev/null 2>&1; then
-            echo "the release already exists; refreshing its notes and its asset"
-            gh release edit "$TAG" \
-              --title "$TAG - MCP Workbench" \
-              --notes-file dist/release-notes.md
+            echo "the release already exists; refreshing its asset"
             gh release upload "$TAG" "dist/$ASSET" --clobber
           else
             gh release create "$TAG" "dist/$ASSET" \
@@ -80,6 +77,20 @@ jobs:
               --notes-file dist/release-notes.md \
               --verify-tag
           fi
+          # A release `gh` leaves as a draft, or one a person drafted by hand, must end up
+          # published: the step above only writes files, it never decide the visibility.
+          # GitHub refuses to mark a pre-release as latest, so a tag such as `v0.2.0-rc.1`
+          # keeps the label it was given and stays out of "latest".
+          latest=--latest
+          if [ "$(gh release view "$TAG" --json isPrerelease --jq .isPrerelease)" = "true" ]; then
+            latest=--latest=false
+            echo "the release is a pre-release; it keeps its own label and is not marked latest"
+          fi
+          gh release edit "$TAG" \
+            --title "$TAG - MCP Workbench" \
+            --notes-file dist/release-notes.md \
+            --draft=false \
+            $latest
 
       - name: Report where it landed
         env:
