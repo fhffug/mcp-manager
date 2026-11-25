@@ -4,6 +4,8 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-25
+
 ### Added
 
 - A **Release** workflow that runs when a `v*` tag is pushed — and on demand, with the tag as its input — and publishes the GitHub release itself: it builds the bundle, packs `dist/dsh-mcp-workbench-<version>.zip`, writes the notes from the matching `CHANGELOG` section and attaches the zip to the release.
@@ -14,6 +16,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - The repository now has two long-lived branches, `main` and `release`, instead of cutting a `release/<minor>` branch per version. A release is prepared on `release` by a pull request, tagged there, and merged back into `main`; both branches require a pull request, the two status contexts, and refuse force pushes and deletions.
 - The branch-source check follows the same model: `main` takes the contribution branches and the `release` line, and `release` takes fixes, chores and a back-merge from `main`.
+- The archive attached to a release is now built by CI from the tagged commit, so the `sha256` printed in the notes belongs to the file you download. The 0.1.0 archive stays as it was published; this is the first release the pipeline produces.
 
 ## [0.1.0] - 2026-11-25
 
@@ -58,5 +61,6 @@ All notable changes to this project are documented here. The format follows [Kee
 - The probe summary of a tool list asked for two words the dictionaries did not have, and nothing showed how many tools were returned once the list was cut short. Both are words now, and the summary says when the list was truncated.
 - A test call whose argument box did not hold a JSON object printed an English sentence in every language. The page now asks for one in its own words, and the parser reports why it refused instead of returning a sentence.
 
-[Unreleased]: https://github.com/fhffug/mcp-manager/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/fhffug/mcp-manager/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/fhffug/mcp-manager/releases/tag/v0.1.1
 [0.1.0]: https://github.com/fhffug/mcp-manager/releases/tag/v0.1.0
